@@ -10,6 +10,9 @@ const userRoutes = require("./routes/userRoutes")
 const productRoutes = require("./routes/productRoutes")
 const categoryRoutes = require("./routes/categoryRoutes")
 
+app.use(cors('*'))
+
+
 
 app.use(express.json({ extended: false}))
 app.use("/api/auth", authRoutes)
@@ -19,7 +22,6 @@ app.use("/api/category", categoryRoutes)
 
 
 
-app.use(cors('*'))
 app.get("/", (req, res)=>{
     res.json("Welcome to PalleteDecore")
 })
