@@ -19,7 +19,7 @@ app.use("/api/category", categoryRoutes)
 
 
 
-app.use(cors())
+app.use(cors('*'))
 app.get("/", (req, res)=>{
     res.json("Welcome to PalleteDecore")
 })
