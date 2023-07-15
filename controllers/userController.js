@@ -1,42 +1,20 @@
 const User = require("../models/userModel")
-const { encrypt, compare }= require("../helpers/auth")
-const { genToken } = require("../helpers/token")
 
-exports.registerUser = async(req, res)=>{
-    const {password, email} = req.body
+exports.getAUser = async(req, res)=>{
+    const {id} = req.user
     try {
-        const checkEmail = await User.findOne({email})
-        if(checkEmail) return res.status(401).json({error: "Email already in use"})
-
-        req.body.password = await encrypt(password)
-        const register = new User({
-            ...req.body
-        
-        })
-        await register.save()
-        res.status(200).json(register)
-
+        const getUser = await User.findById(id).select("-password -updatedAt")
+        res.status(200).json(getUser)
     } catch (error) {
-        res.status(400).json(error)
-        console.log(error);
+        res.status(500).json(error)
     }
 }
 
-exports.loginUser = async(req, res)=>{
-    const { email, password} = req.body
+exports.getAllusers = async(req, res)=>{
     try {
-        const checkEmail = await User.findOne({email})
-        if(!checkEmail) return res.status(400).json({error:"Email or Password Incorrect"})
-        
-        const checkPwd = await compare(password, checkEmail.password)
-        if(!checkPwd) return res.status(400).json({error: "Username or Password Incorrect"})
-
-        const token = await genToken(checkEmail._id)
-        res.status(200).json({token, message:"Login Success"})
-
-
+        const allUsers = await User.find()
+        res.status(400).json(allUsers)
     } catch (error) {
         console.log(error);
     }
-
 }

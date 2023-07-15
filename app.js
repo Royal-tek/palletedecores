@@ -5,10 +5,18 @@ const port = process.env.PORT
 const dbConnect = require('./config/db')
 const cors = require('cors')
 
+const authRoutes = require("./routes/authRoutes")
 const userRoutes = require("./routes/userRoutes")
+const productRoutes = require("./routes/productRoutes")
+const categoryRoutes = require("./routes/categoryRoutes")
+
 
 app.use(express.json({ extended: false}))
+app.use("/api/auth", authRoutes)
 app.use("/api/users", userRoutes)
+app.use("/api/products", productRoutes)
+app.use("/api/category", categoryRoutes)
+
 
 
 app.use(cors())
